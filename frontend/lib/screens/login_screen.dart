@@ -21,22 +21,20 @@ class _LoginScreenState extends State<LoginScreen> {
     final auth = Provider.of<AuthProvider>(context, listen: false);
 
     if (email.text.isEmpty || password.text.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Fill all fields")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Fill all fields")));
       return;
     }
 
     try {
       await auth.login(email.text.trim(), password.text.trim());
 
-      Navigator.pushReplacementNamed(
-        context,
-        '/home',
-        arguments: auth.user,
-      );
+      Navigator.pushReplacementNamed(context, '/home', arguments: auth.user);
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -55,8 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           prefixIcon: Icon(icon),
           suffixIcon: isPassword
               ? IconButton(
-                  icon: Icon(
-                      obscure ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(obscure ? Icons.visibility : Icons.visibility_off),
                   onPressed: () => setState(() => obscure = !obscure),
                 )
               : null,
@@ -74,21 +71,19 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.indigo, Colors.blue],
-          ),
+          gradient: LinearGradient(colors: [Colors.indigo, Colors.blue]),
         ),
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               children: [
-
                 const Text(
                   "Welcome Back",
                   style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
                 const SizedBox(height: 20),
@@ -96,21 +91,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Text(
                   "Login",
                   style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
                 const SizedBox(height: 20),
 
-                inputField(
-                    hint: "Email", icon: Icons.email, controller: email),
+                inputField(hint: "Email", icon: Icons.email, controller: email),
 
                 inputField(
-                    hint: "Password",
-                    icon: Icons.lock,
-                    controller: password,
-                    isPassword: true),
+                  hint: "Password",
+                  icon: Icons.lock,
+                  controller: password,
+                  isPassword: true,
+                ),
 
                 Align(
                   alignment: Alignment.centerRight,
@@ -118,8 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/forgot-password');
                     },
-                    child: const Text("Forgot Password?",
-                        style: TextStyle(color: Colors.white)),
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
 
@@ -139,18 +137,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 20),
 
-                /// 🔵 GOOGLE LOGIN BUTTON
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                    ),
-                    onPressed: () async {
-                      final authProvider =
-                          Provider.of<AuthProvider>(context, listen: false);
+                Center(
+                  child: GestureDetector(
+                    onTap: () async {
+                      final authProvider = Provider.of<AuthProvider>(
+                        context,
+                        listen: false,
+                      );
 
                       try {
                         final firebaseUser =
@@ -171,25 +164,49 @@ class _LoginScreenState extends State<LoginScreen> {
                           arguments: authProvider.user,
                         );
                       } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Error: $e")),
-                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text("Error: $e")));
                       }
                     },
-                    child: const Text("Continue with Google"),
+
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Image.asset("googlelogo.png"),
+                      ),
+                    ),
                   ),
                 ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Continue with Google",
+                  style: TextStyle(color: Colors.white),
+                ),
 
-                const SizedBox(height: 15),
+                const SizedBox(height: 85),
 
                 GestureDetector(
-                  onTap: () =>
-                      Navigator.pushNamed(context, '/signup'),
+                  onTap: () => Navigator.pushNamed(context, '/signup'),
                   child: const Text(
                     "Don't have an account? Sign Up",
                     style: TextStyle(color: Colors.white),
                   ),
-                )
+                ),
+                
               ],
             ),
           ),
