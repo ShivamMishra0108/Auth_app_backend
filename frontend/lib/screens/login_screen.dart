@@ -9,7 +9,7 @@ class LoginScreen extends StatefulWidget {
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
-}
+  }
 
 class _LoginScreenState extends State<LoginScreen> {
   final email = TextEditingController();
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,spacing: 40,
-                    
+                  
                     children: [
                       Column(
                         children: [
